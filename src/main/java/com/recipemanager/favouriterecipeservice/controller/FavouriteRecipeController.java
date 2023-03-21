@@ -1,6 +1,7 @@
 package com.recipemanager.favouriterecipeservice.controller;
 
 import com.recipemanager.favouriterecipeservice.dto.RecipeSearchDTO;
+import com.recipemanager.favouriterecipeservice.dto.RecipeSearchV1DTO;
 import com.recipemanager.favouriterecipeservice.model.APIResponse;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
@@ -53,6 +54,21 @@ public class FavouriteRecipeController {
                                 , Sort.by("name").ascending());
 
         Page<Recipe> employeePage = recipeService.findBySearchCriteria(builder.build(), page);
+
+
         return ResponseEntity.ok(APIResponse.build(null, HttpStatus.OK, employeePage.toList()));
+    }
+    @PostMapping("/search/v1")
+    public ResponseEntity<APIResponse> searchRecipesV1(@RequestParam(name = "pageNum", defaultValue = "0") int pageNum
+            , @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
+            , @RequestBody RecipeSearchV1DTO recipeSearchDTO) {
+
+        Pageable page = PageRequest.of(pageNum, pageSize
+                , Sort.by("name").ascending());
+
+        List<Recipe> employeePage = recipeService.findBySearchCriteriaV1(recipeSearchDTO);
+
+
+        return ResponseEntity.ok(APIResponse.build(null, HttpStatus.OK, employeePage));
     }
 }

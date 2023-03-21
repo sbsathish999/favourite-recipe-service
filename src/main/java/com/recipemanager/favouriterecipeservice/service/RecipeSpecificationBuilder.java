@@ -1,6 +1,7 @@
 package com.recipemanager.favouriterecipeservice.service;
 
 import com.recipemanager.favouriterecipeservice.config.SearchOperation;
+import com.recipemanager.favouriterecipeservice.model.Ingredient;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;

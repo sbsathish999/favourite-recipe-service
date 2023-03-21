@@ -28,9 +28,10 @@ public class Ingredient {
     String id;
     @Column(nullable = false)
     @ApiModelProperty(required = true)
-    String name;
+    String ingredients;
+    @ManyToOne
     @JsonIgnore
     @ToString.Exclude
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     Recipe recipe;
 }

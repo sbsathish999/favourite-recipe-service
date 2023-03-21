@@ -19,54 +19,57 @@ public class RecipeSpecification implements Specification<Recipe> {
     @Override
     public Predicate toPredicate(Root<Recipe> root
             , CriteriaQuery<?> query, CriteriaBuilder cb) {
-        String strToSearch = searchCriteria.getValue()
-                .toString().toLowerCase();
-
-
+        String strToSearch = searchCriteria.getValue().toString().toLowerCase();
         switch(Objects.requireNonNull(
                 SearchOperation.getSimpleOperation
                         (searchCriteria.getOperation()))){
             case CONTAINS:
                 if(searchCriteria.getFilterKey().equals("ingredients")) {
-                    return cb.like(cb.lower(ingredientJoin(root).
-                                    <String>get(searchCriteria.getFilterKey())),
-                            "%" + strToSearch + "%");
+                    Join<Recipe, Ingredient> join = ingredientJoin(query, root);
+                    Expression<String> ex = join.
+                            <String>get(searchCriteria.getFilterKey());
+                    return cb.like(cb.lower(ex),"%" + strToSearch + "%");
                 } else if(searchCriteria.getFilterKey().equals("instructions")) {
-                    return cb.like(cb.lower(instructionJoin(root).
-                                    <String>get(searchCriteria.getFilterKey())),
-                            "%" + strToSearch + "%");
+                    Join<Recipe, Instruction> join = instructionJoin(query, root);
+                    Expression<String> ex = join.
+                            <String>get(searchCriteria.getFilterKey());
+                    return cb.like(cb.lower(ex),"%" + strToSearch + "%");
                 }
-                return cb.like(cb.lower(root
-                                .get(searchCriteria.getFilterKey())),
-                        "%" + strToSearch + "%");
 
+                return cb.like(cb.lower(root.get(searchCriteria.getFilterKey())),"%" + strToSearch + "%");
             case DOES_NOT_CONTAIN:
                 if(searchCriteria.getFilterKey().equals("ingredients"))
                 {
-                    return cb.notLike(cb.lower(ingredientJoin(root).
-                                    <String>get(searchCriteria.getFilterKey())),
-                            "%" + strToSearch +"%");
+                    Join<Recipe, Ingredient> join = ingredientJoin(query, root);
+                    Expression<String> ex = join.
+                            <String>get(searchCriteria.getFilterKey());
+                    return cb.and(cb.notLike(cb.lower(ex),"%" + strToSearch + "%"));
                 } else if(searchCriteria.getFilterKey().equals("instructions")) {
-                    return cb.notLike(cb.lower(instructionJoin(root).
-                                    <String>get(searchCriteria.getFilterKey())),
-                            "%" + strToSearch + "%");
+                    Join<Recipe, Instruction> join = instructionJoin(query, root);
+                    Expression<String> ex = join.
+                            <String>get(searchCriteria.getFilterKey());
+                    return cb.and(cb.notLike(cb.lower(ex),"%" + strToSearch + "%"));
                 }
-                return cb.notLike(cb.lower(root
-                                .get(searchCriteria.getFilterKey())),
-                        "%" + strToSearch + "%");
+                return cb.and(cb.notLike(cb.lower(root.get(searchCriteria.getFilterKey())),"%" + strToSearch + "%"));
             case EQUAL:
                 if(searchCriteria.getFilterKey().equals("servings") || searchCriteria.getFilterKey().equals("type")) {
-                    return cb.equal(root.get(searchCriteria.getFilterKey()), searchCriteria.getValue());
+                    return cb.and(cb.equal(root.get(searchCriteria.getFilterKey()), searchCriteria.getValue()));
                 }
         }
         return null;
     }
 
-    private Join<Recipe, Instruction> instructionJoin(Root<Recipe> root){
-        return root.join("value");
+    private Join<Recipe, Instruction> instructionJoin(CriteriaQuery<?> query, Root<Recipe> root){
+        query.multiselect(
+                root.get("id"));
+        query.groupBy(root.get("id"));
+        return root.join("instructions", JoinType.LEFT);
     }
 
-    private Join<Recipe, Ingredient> ingredientJoin(Root<Recipe> root){
-        return root.join("recipe_id");
+    private Join<Recipe, Ingredient> ingredientJoin(CriteriaQuery<?> query, Root<Recipe> root){
+        query.multiselect(
+                root.get("id"));
+        query.groupBy(root.get("id"));
+        return root.join("ingredients", JoinType.LEFT);
     }
 }

@@ -23,7 +23,7 @@ public class Instruction {
     String id;
     @Column(nullable = false)
     @ApiModelProperty(required = true)
-    String value;
+    String instructions;
     @ManyToOne
     @JsonIgnore
     @ToString.Exclude
