@@ -1,4 +1,4 @@
-package com.recipemanager.favouriterecipeservice.dto;
+package com.recipemanager.favouriterecipeservice.model;
 
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import lombok.AccessLevel;
@@ -13,11 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RecipeSearchV1DTO {
+public class RecipeSearchDTO {
 
-    List<String> includeIngredients;
-    List<String> excludeIngredient;
-    String instructionSearchText;
-    Boolean isVeg;
-    Integer servings;
+    List<SearchCriteria> searchCriteriaList;
+    String dataOption;
 }

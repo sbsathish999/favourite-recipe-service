@@ -22,9 +22,11 @@ public class RecipeUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @ApiModelProperty(required = false)
     String id;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
     String name;
+
     @Column(nullable = false, unique = true)
     @ApiModelProperty(required = true)
     String email;

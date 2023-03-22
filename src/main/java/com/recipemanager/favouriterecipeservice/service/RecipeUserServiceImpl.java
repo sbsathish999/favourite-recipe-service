@@ -2,7 +2,6 @@ package com.recipemanager.favouriterecipeservice.service;
 
 import com.recipemanager.favouriterecipeservice.model.APIResponse;
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
-import com.recipemanager.favouriterecipeservice.repository.RecipeRepository;
 import com.recipemanager.favouriterecipeservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

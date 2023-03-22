@@ -1,7 +1,6 @@
 package com.recipemanager.favouriterecipeservice.service;
 
 import com.recipemanager.favouriterecipeservice.config.SearchOperation;
-import com.recipemanager.favouriterecipeservice.model.Ingredient;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,8 +34,8 @@ public class RecipeSpecificationBuilder {
         }
 
         Specification<Recipe> result = new RecipeSpecification(params.get(0));
-        for (int idx = 1; idx < params.size(); idx++){
-            SearchCriteria criteria = params.get(idx);
+        for (int index = 1; index < params.size(); index++){
+            SearchCriteria criteria = params.get(index);
             result =  SearchOperation.getDataOption(criteria.getDataOption()) == SearchOperation.ALL
                                 ? Specification.where(result).and(new RecipeSpecification(criteria))
                                 : Specification.where(result).or(new RecipeSpecification(criteria));
