@@ -1,11 +1,13 @@
 package com.recipemanager.favouriterecipeservice.controller;
 
-import com.recipemanager.favouriterecipeservice.model.RecipeSearchDTO;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
+import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import com.recipemanager.favouriterecipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/favourite-recipes")
@@ -19,10 +21,8 @@ public class FavouriteRecipeController {
         return recipeService.save(recipe);
     }
 
-    @PostMapping("/search")
-    public ResponseEntity searchRecipes(@RequestParam(name = "pageNum", defaultValue = "0") int pageNum
-                                                    , @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
-                                                    , @RequestBody RecipeSearchDTO recipeSearchDTO) {
-        return recipeService.findBySearchCriteria(pageNum, pageSize, recipeSearchDTO);
+    @PostMapping("/search/{userId}")
+    public ResponseEntity searchRecipes(@PathVariable String userId, @RequestBody List<SearchCriteria> searchCriteriaList) {
+        return recipeService.findBySearchCriteria(userId, searchCriteriaList);
     }
 }

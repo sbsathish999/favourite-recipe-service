@@ -1,11 +1,13 @@
 package com.recipemanager.favouriterecipeservice.service;
 
-import com.recipemanager.favouriterecipeservice.model.RecipeSearchDTO;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 
+import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface RecipeService {
-    ResponseEntity findBySearchCriteria(Integer pageNum, Integer pageSize, RecipeSearchDTO recipeSearchDTO);
+    ResponseEntity findBySearchCriteria(String userId, List<SearchCriteria> searchCriteriaList);
     ResponseEntity save(Recipe recipe);
 }

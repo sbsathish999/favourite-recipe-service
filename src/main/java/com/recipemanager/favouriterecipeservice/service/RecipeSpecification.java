@@ -67,7 +67,9 @@ public class RecipeSpecification implements Specification<Recipe> {
                 }
                 return cb.and(cb.notLike(cb.lower(root.get(searchCriteria.getFilterKey())),"%" + strToSearch + "%"));
             case EQUAL:
-                if(searchCriteria.getFilterKey().equals("servings") || searchCriteria.getFilterKey().equals("type")) {
+                if(searchCriteria.getFilterKey().equals("servings")
+                        || searchCriteria.getFilterKey().equals("type")
+                        || searchCriteria.getFilterKey().equals("user")) {
                     return cb.and(cb.equal(root.get(searchCriteria.getFilterKey()), searchCriteria.getValue()));
                 }
         }

@@ -1,17 +1,11 @@
 package com.recipemanager.favouriterecipeservice.service;
 
-import com.recipemanager.favouriterecipeservice.model.RecipeSearchDTO;
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import com.recipemanager.favouriterecipeservice.repository.RecipeRepository;
 import com.recipemanager.favouriterecipeservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,31 +21,36 @@ public class RecipeServiceImpl implements RecipeService {
     UserRepository userRepository;
 
     @Override
-    public ResponseEntity findBySearchCriteria(Integer pageNum, Integer pageSize, RecipeSearchDTO recipeSearchDTO) {
+    public ResponseEntity findBySearchCriteria(String userId, List<SearchCriteria> criteriaList) {
         RecipeSpecificationBuilder builder = new RecipeSpecificationBuilder();
-        List<SearchCriteria> criteriaList = recipeSearchDTO.getSearchCriteriaList();
-        if (criteriaList != null) {
-            criteriaList.forEach(x ->
-            {
-                x.setDataOption(recipeSearchDTO.getDataOption());
-                builder.with(x);
-            });
+        try {
+            if (userId == null || userId.isEmpty() || criteriaList == null || criteriaList.isEmpty()) {
+                throw new RuntimeException("Invalid input");
+            }
+            RecipeUser user = userRepository.findById(userId).orElse(null);
+            if(user == null) {
+                throw new RuntimeException("User not found");
+            }
+            SearchCriteria userCriteria = new SearchCriteria("user", user, "eq");
+            criteriaList.add(userCriteria);
+            criteriaList.forEach(x -> builder.with(x));
+            List<Recipe> searchResult = repository.findAll(builder.build());
+            return ResponseEntity.ok(searchResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
-
-        Pageable page = PageRequest.of(pageNum, pageSize, Sort.by("name").ascending());
-        Page<Recipe> searchResult = repository.findAll(builder.build(), page);
-        return ResponseEntity.ok(searchResult);
     }
 
     @Override
     public ResponseEntity save(Recipe recipe) {
         try {
-            if(recipe.getUser() != null && recipe.getUser().getId() != null) {
+            if(recipe != null && recipe.getUser() != null && recipe.getUser().getId() != null) {
                 RecipeUser user = null;
                 try{
-                    user = userRepository.findById(recipe.getUser().getId()).get();
+                    user = userRepository.findById(recipe.getUser().getId()).orElse(null);
                     if(user == null) {
-                        throw new RuntimeException("User not found");
+                        throw new RuntimeException("user not found");
                     }
                 }catch (Exception e) {
                     throw new RuntimeException("user not found");
@@ -60,10 +59,10 @@ public class RecipeServiceImpl implements RecipeService {
             } else {
                 throw new RuntimeException("Invalid input");
             }
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
-        return ResponseEntity.ok().build();
     }
 }
