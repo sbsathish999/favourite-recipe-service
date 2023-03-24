@@ -55,11 +55,11 @@ public class RecipeServiceImpl implements RecipeService {
                 }catch (Exception e) {
                     throw new RuntimeException("user not found");
                 }
-                repository.save(recipe);
+                recipe = repository.save(recipe);
             } else {
                 throw new RuntimeException("Invalid input");
             }
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(recipe);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
