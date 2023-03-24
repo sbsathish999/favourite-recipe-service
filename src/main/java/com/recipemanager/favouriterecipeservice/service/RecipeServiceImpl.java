@@ -1,8 +1,6 @@
 package com.recipemanager.favouriterecipeservice.service;
 
-import com.recipemanager.favouriterecipeservice.model.Recipe;
-import com.recipemanager.favouriterecipeservice.model.RecipeUser;
-import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
+import com.recipemanager.favouriterecipeservice.model.*;
 import com.recipemanager.favouriterecipeservice.repository.RecipeRepository;
 import com.recipemanager.favouriterecipeservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,16 @@ public class RecipeServiceImpl implements RecipeService {
             }
             SearchCriteria userCriteria = new SearchCriteria("user", user, "eq");
             criteriaList.add(userCriteria);
+            for(SearchCriteria criteria : criteriaList) {
+                if(criteria.getFilterKey() == null || criteria.getValue() == null) {
+                    continue;
+                }
+                if(criteria.getFilterKey().equalsIgnoreCase("ingredients")
+                    || criteria.getFilterKey().equalsIgnoreCase("instructions")
+                    || criteria.getFilterKey().equalsIgnoreCase("type")) {
+                    criteria.setValue(criteria.getValue().toString().trim().toLowerCase());
+                }
+            }
             criteriaList.forEach(x -> builder.with(x));
             List<Recipe> searchResult = repository.findAll(builder.build());
             return ResponseEntity.ok(searchResult);
@@ -54,6 +62,17 @@ public class RecipeServiceImpl implements RecipeService {
                     }
                 }catch (Exception e) {
                     throw new RuntimeException("user not found");
+                }
+                if(recipe.getIngredients() != null && recipe.getInstructions() != null) {
+                    for(Ingredient i : recipe.getIngredients()) {
+                        i.setIngredients(i.getIngredients().toString().trim().toLowerCase());
+                    }
+                    for(Instruction i : recipe.getInstructions()) {
+                        i.setInstructions(i.getInstructions().toString().trim().toLowerCase());
+                    }
+                }
+                if(recipe.getType() != null) {
+                    recipe.setType(recipe.getType().trim().toLowerCase());
                 }
                 recipe = repository.save(recipe);
             } else {
