@@ -1,12 +1,13 @@
 package com.recipemanager.favouriterecipeservice.service;
 
 import com.recipemanager.favouriterecipeservice.model.Recipe;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 
-import org.springframework.data.domain.Pageable;
+import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface RecipeService {
-    Page<Recipe> findBySearchCriteria(Specification<Recipe> build, Pageable page);
-    void save(Recipe recipe);
+    ResponseEntity findBySearchCriteria(String userId, List<SearchCriteria> searchCriteriaList);
+    ResponseEntity save(Recipe recipe);
 }

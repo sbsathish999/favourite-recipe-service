@@ -5,6 +5,7 @@ import javax.persistence.*;
 import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table
@@ -24,23 +26,29 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @ApiModelProperty(required = false)
     String id;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
     String name;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
     String type;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
     Integer servings;
+
     @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     List<Ingredient> ingredients;
+
     @Column(nullable = false)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     List<Instruction> instructions;
+
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
     @ApiModelProperty(required = true)

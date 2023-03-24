@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -26,11 +25,14 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @ApiModelProperty(required = false)
     String id;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
-    String name;
+    String ingredients;
+
+    @ManyToOne
     @JsonIgnore
     @ToString.Exclude
-    @JoinColumn(name = "recipe_id")
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     Recipe recipe;
 }

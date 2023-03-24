@@ -1,17 +1,14 @@
 package com.recipemanager.favouriterecipeservice.controller;
 
-import com.recipemanager.favouriterecipeservice.model.APIResponse;
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
 import com.recipemanager.favouriterecipeservice.service.RecipeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
 @RestController
 @RequestMapping("/user")
-public class RecipeUserController {
+public class UserController {
 
     @Autowired
     RecipeUserService userService;

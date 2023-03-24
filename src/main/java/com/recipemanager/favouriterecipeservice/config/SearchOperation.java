@@ -8,18 +8,6 @@ public enum SearchOperation {
     public static final String[] SIMPLE_OPERATION_SET = {
             "cn", "nc", "eq", "ne", "nu", "nn"};
 
-    public static SearchOperation getDataOption(final String
-                                                        dataOption) {
-        switch (dataOption) {
-            case "all":
-                return ALL;
-            case "any":
-                return ANY;
-            default:
-                return null;
-        }
-    }
-
     public static SearchOperation getSimpleOperation(
             final String input) {
         switch (input) {

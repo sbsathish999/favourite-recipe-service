@@ -7,9 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
-
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -21,9 +18,11 @@ public class Instruction {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @ApiModelProperty(required = false)
     String id;
+
     @Column(nullable = false)
     @ApiModelProperty(required = true)
-    String value;
+    String instructions;
+
     @ManyToOne
     @JsonIgnore
     @ToString.Exclude

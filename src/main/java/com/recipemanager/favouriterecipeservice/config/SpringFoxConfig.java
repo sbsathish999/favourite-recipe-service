@@ -18,11 +18,11 @@ import java.util.Collections;
 public class SpringFoxConfig {
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("MyApp Rest APIs",
-                "APIs for MyApp.",
+        return new ApiInfo("Favourite Recipe APIs",
+                "APIs for managing Favourite recipes.",
                 "1.0",
                 "Terms of service",
-                new Contact("test", "www.org.com", "test@emaildomain.com"),
+                new Contact("test", "www.favourite-recipe.com", "contact@favourite-recipe.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
