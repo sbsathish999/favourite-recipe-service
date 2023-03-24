@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-
 @Service
 public class RecipeUserServiceImpl implements RecipeUserService{
 
@@ -21,7 +19,7 @@ public class RecipeUserServiceImpl implements RecipeUserService{
             }
             user =  repository.save(user);
         }catch (Exception e) {
-            ResponseEntity.unprocessableEntity().body(e.getMessage());
+            return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
         return ResponseEntity.ok(user);
     }

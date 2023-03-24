@@ -1,7 +1,8 @@
-package com.recipemanager.favouriterecipeservice.service;
+package com.recipemanager.favouriterecipeservice.UnitTestCases.service;
 
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
 import com.recipemanager.favouriterecipeservice.repository.UserRepository;
+import com.recipemanager.favouriterecipeservice.service.RecipeUserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -67,22 +68,23 @@ public class RecipeUserServiceImplTest {
 
     @Test
     public void testGet_CheckFor422WhenInvalidUserIdAPassed() {
-        ResponseEntity entity = userService.get("invalid", "");
         when(repository.findById("invalid")).thenReturn(null);
+        ResponseEntity entity = userService.get("invalid", "email@gmail.com");
         assertTrue(entity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
 
     @Test
     public void testGet_CheckFor422WhenInvalidEmailPassed() {
-        ResponseEntity entity = userService.get("", "invalidemail@gmail.com");
         when(repository.findByEmail("invalidemail@gmail.com")).thenReturn(null);
+        ResponseEntity entity = userService.get("", "invalidemail@gmail.com");
         assertTrue(entity.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Test
-    public void testGet_CheckFor200WhenUserSaved() {
-        ResponseEntity entity = userService.get("", "abc@gmail.com");
+    public void testGet_CheckFor200WhenUserRetrieved() {
         when(repository.findByEmail("abc@gmail.com")).thenReturn(mock(RecipeUser.class));
+        ResponseEntity entity = userService.get(null, "abc@gmail.com");
         assertTrue(entity.getStatusCode() == HttpStatus.OK);
     }
 }

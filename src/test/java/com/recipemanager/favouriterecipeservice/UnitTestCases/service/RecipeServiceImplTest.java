@@ -1,10 +1,11 @@
-package com.recipemanager.favouriterecipeservice.service;
+package com.recipemanager.favouriterecipeservice.UnitTestCases.service;
 
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
 import com.recipemanager.favouriterecipeservice.repository.RecipeRepository;
 import com.recipemanager.favouriterecipeservice.repository.UserRepository;
+import com.recipemanager.favouriterecipeservice.service.RecipeServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
