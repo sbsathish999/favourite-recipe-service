@@ -55,9 +55,9 @@ public class RecipeSpecification implements Specification<Recipe> {
                     Join<Recipe, Instruction> instructionJoin = instructionJoin(query, root);
                     Subquery<String> subquery = query.subquery(String.class);
                     Root<Recipe> subrecipe = subquery.from(Recipe.class);
-                    Join<Recipe, Instruction> subingredient = subrecipe.join("ingredients");
+                    Join<Recipe, Instruction> subingredient = subrecipe.join("instructions");
                     subquery.select(subrecipe.get("id"))
-                            .where(cb.like(subingredient.get("ingredients"), "%" + searchCriteria.getValue() + "%"));
+                            .where(cb.like(subingredient.get("instructions"), "%" + searchCriteria.getValue() + "%"));
 
                     Predicate predicate = cb.and(
                             cb.notLike(instructionJoin.get("instructions"), "%" + searchCriteria.getValue() + "%"),
