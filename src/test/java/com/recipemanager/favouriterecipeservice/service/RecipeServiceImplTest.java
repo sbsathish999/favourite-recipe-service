@@ -1,4 +1,4 @@
-package com.recipemanager.favouriterecipeservice.UnitTestCases.service;
+package com.recipemanager.favouriterecipeservice.service;
 
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
