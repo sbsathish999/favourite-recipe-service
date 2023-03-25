@@ -1,6 +1,7 @@
 package com.recipemanager.favouriterecipeservice.controller;
 
 import com.recipemanager.favouriterecipeservice.model.RecipeUser;
+import com.recipemanager.favouriterecipeservice.repository.UserRepository;
 import com.recipemanager.favouriterecipeservice.service.RecipeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,9 @@ public class UserController {
     @Autowired
     RecipeUserService userService;
 
+    @Autowired
+    UserRepository repository;
+
     @PostMapping(value = "/save")
     public ResponseEntity save(@RequestBody RecipeUser user) {
         return userService.save(user);
@@ -23,5 +27,11 @@ public class UserController {
                                    @RequestParam(required = false) String email) {
         return userService.get(userId, email);
     }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity fetchAll() {
+        return ResponseEntity.ok(repository.findAll());
+    }
+
 }
 

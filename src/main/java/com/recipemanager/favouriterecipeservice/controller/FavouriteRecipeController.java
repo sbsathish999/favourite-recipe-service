@@ -2,6 +2,7 @@ package com.recipemanager.favouriterecipeservice.controller;
 
 import com.recipemanager.favouriterecipeservice.model.Recipe;
 import com.recipemanager.favouriterecipeservice.model.SearchCriteria;
+import com.recipemanager.favouriterecipeservice.repository.RecipeRepository;
 import com.recipemanager.favouriterecipeservice.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class FavouriteRecipeController {
     @Autowired
     RecipeService recipeService;
 
+    @Autowired
+    RecipeRepository repository;
+
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody Recipe recipe) {
         return recipeService.save(recipe);
@@ -24,5 +28,10 @@ public class FavouriteRecipeController {
     @PostMapping("/search/{userId}")
     public ResponseEntity searchRecipes(@PathVariable String userId, @RequestBody List<SearchCriteria> searchCriteriaList) {
         return recipeService.findBySearchCriteria(userId, searchCriteriaList);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity fetchAll() {
+        return ResponseEntity.ok(repository.findAll());
     }
 }
