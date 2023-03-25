@@ -17,7 +17,7 @@ Available operations : (String)
 value: (OBject) Possible data types: Integer,String,etc.
 
 filterKey: (String) fields of Recipe table such as (servings, ingredients, instructions, type(values : veg/non-veg) 
-
+---------------------------------------------------------------------------------------------------
 Sample APIs (Request & Response):
 
 1. Creating User:
@@ -169,6 +169,7 @@ ResponseBody:
     }
   }
 ]
+---------------------------------------------------------------------------------------------------
 
 #Added Pre-defined dataset onApplicaiton startup with the following data:
 INSERT INTO recipe_user (id, name, email) VALUES ('1', 'John Doe', 'john.doe@example.com');
