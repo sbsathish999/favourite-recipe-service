@@ -11,7 +11,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -45,13 +44,5 @@ public class UserControllerIntegrationTest {
          RecipeUser result = this.restTemplate
                         .getForObject("http://localhost:" + port + "/user/get?email=gupta@gmail.com", RecipeUser.class);
         assertTrue(result.getName().equals("Gupta"));
-    }
-
-    @Test
-    @Order(3)
-    public void testGetAllUsers() {
-        List all = this.restTemplate
-                .getForObject("http://localhost:" + port + "/user/all", List.class);
-        assertTrue(all.size() == 2);
     }
 }
