@@ -11,13 +11,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serializable;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table
-public class RecipeUser {
+public class RecipeUser implements Serializable {
 
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
